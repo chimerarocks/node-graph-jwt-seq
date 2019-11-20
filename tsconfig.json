@@ -13,5 +13,6 @@
   "_comment_exclude": "Eu não quero que ele compile os ts dentro de node_modules",
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "compileOnSave": false
 }
