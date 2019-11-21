@@ -1,0 +1,36 @@
+version: '3.1'
+
+services:
+  graphql-api:
+    image: node-graph
+    container_name: graphql-api
+    entrypoint: ./.docker/entrypoint.sh
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "3000:3000"
+    networks:
+      - graphql-api-network
+    depends_on:
+      - graphql-api-db
+
+  graphql-api-db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: graphql-api-db
+    restart: always
+    tty: true
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./.docker/dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=db
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
+    networks:
+      - graphql-api-network
+
+networks:
+  graphql-api-network:
+    driver: bridge
