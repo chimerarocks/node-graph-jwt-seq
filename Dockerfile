@@ -1,8 +1,10 @@
 FROM node:8
 
-USER node
-
 WORKDIR /usr/src/app
+
+RUN npm i -g sequelize-cli@3.0.0
+
+USER node
 
 EXPOSE 3000
 
