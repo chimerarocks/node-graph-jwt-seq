@@ -30,6 +30,11 @@ const typeDefs = `
 `;
 
 const resolvers = {
+  // User: {
+  //   id: (user) => user.id,
+  //   name: (user) => user.name,
+  //   email: (user) => user.email
+  // }, apenas para mostrar como funciona os resolver triviais, que resolvem tipos
   Query: {
     allUsers: () => users
   },
