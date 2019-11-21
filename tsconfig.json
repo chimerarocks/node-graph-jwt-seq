@@ -2,9 +2,11 @@
   "_comment_target_module": "Eu quero que ele carregue os modules utilizando es6 e gere utiliando commonjs",
   "_comment_outDir": "Eu quero que ele gere os arquivos compilados no diretorio dist",
    "compilerOptions": {
+     "lib": [
+       "esnext"
+     ],
      "target": "es6",
-     "module": "commonjs",
-     "outDir": "dist"
+     "module": "commonjs"
    },
   "_comment_include": "Eu quero que ele compile todos os ts dentro de src",
   "include": [
