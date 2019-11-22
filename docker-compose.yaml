@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   graphql-api:
-    image: node-graph
+    build: .
     container_name: graphql-api
     entrypoint: ./.docker/entrypoint.sh
     volumes:

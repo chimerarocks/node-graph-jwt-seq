@@ -1,5 +1,23 @@
 import {makeExecutableSchema} from "graphql-tools";
+import {Query} from "./query";
+import {Mutation} from "./mutation";
 
+const SchemaDefinition =  `
+  type Schema {
+    query: Query
+    mutation: Mutation
+  }
+`;
+
+export default makeExecutableSchema({
+  typeDefs: [
+    SchemaDefinition,
+    Query,
+    Mutation
+  ]
+});
+
+/**
 const users: any[] = [
   {
     id: 1,
@@ -48,3 +66,5 @@ const resolvers = {
 };
 
 export default makeExecutableSchema({typeDefs, resolvers}); // o mesmo que fazer makeExecutableSchema({typeDefs: typeDefs, resolvers: resolvers})
+
+ */
