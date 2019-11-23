@@ -4,6 +4,17 @@ import {UserInstance} from "../../../models/UserModel";
 import {Transaction} from "sequelize";
 
 export const userResolvers = {
+  User: {
+    // posts: (parent, { first = 10, offset = 10 }, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
+    posts: (user, { first = 10, offset = 10 }, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
+      return db.Post
+        .findAll({
+          where: {author: user.get('id')}, // esse get só sexiste por que o user é do tipo UserInstance por causa do sequelize
+          limit: first,
+          offset: offset
+        });
+    }
+  },
   Query: {
     //users: (parent, args, context, info: GraphQLResolveInfo) => {
     users: (parent, { first = 10, offset = 10 }, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
