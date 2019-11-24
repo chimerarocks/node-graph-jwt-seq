@@ -2,6 +2,7 @@ import {GraphQLResolveInfo} from "graphql";
 import {DbConnectionInterface} from "../../../interfaces/DbConnectionInterface";
 import {UserInstance} from "../../../models/UserModel";
 import {Transaction} from "sequelize";
+import {handleError} from "../../../utils/utils";
 
 export const userResolvers = {
   User: {
@@ -12,7 +13,8 @@ export const userResolvers = {
           where: {author: user.get('id')}, // esse get só sexiste por que o user é do tipo UserInstance por causa do sequelize
           limit: first,
           offset: offset
-        });
+        })
+        .catch(handleError);
     }
   },
   Query: {
@@ -22,7 +24,8 @@ export const userResolvers = {
         .findAll({
           limit: first,
           offset: offset
-        });
+        })
+        .catch(handleError);
     },
     user: (parent, { id }, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
       return db.User
@@ -31,6 +34,7 @@ export const userResolvers = {
           if (!user) throw new Error(`User with id ${id} not found!`);
           return user;
         })
+        .catch(handleError)
     }
   },
 
@@ -39,7 +43,7 @@ export const userResolvers = {
       return db.sequelize.transaction((t: Transaction) => {
         return db.User
           .create(input, {transaction: t})
-      });
+      }).catch(handleError);
     },
     updateUser: (parent, {id, input}, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
       id = parseInt(id);
@@ -50,7 +54,7 @@ export const userResolvers = {
             if (!user) throw new Error(`User with id ${id} not found!`);
             return user.update(input, {transaction: t});
           });
-      });
+      }).catch(handleError);
     },
     updateUserPassword: (parent, {id, input}, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
       id = parseInt(id);
@@ -62,7 +66,7 @@ export const userResolvers = {
             return user.update(input, {transaction: t})
               .then((user: UserInstance) => !!user);
           });
-      });
+      }).catch(handleError);
     },
     deleteUser: (parent, {id}, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
       id = parseInt(id);
@@ -74,7 +78,7 @@ export const userResolvers = {
             return user.destroy({transaction: t})
               .then((user) => !!user);
           });
-      });
+      }).catch(handleError);
     }
   }
 };

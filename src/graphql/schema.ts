@@ -12,11 +12,11 @@ import {commentResolvers} from "./resources/comment/comment.resolvers";
 import {postResolvers} from "./resources/post/post.resolvers";
 import {userResolvers} from "./resources/user/user.resolvers";
 
-const resolvers = merge({
+const resolvers = merge(
   commentResolvers,
   postResolvers,
   userResolvers
-});
+);
 
 const SchemaDefinition =  `
   type Schema {

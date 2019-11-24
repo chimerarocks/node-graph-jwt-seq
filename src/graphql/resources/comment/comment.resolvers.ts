@@ -2,29 +2,33 @@ import {DbConnectionInterface} from "../../../interfaces/DbConnectionInterface";
 import {GraphQLResolveInfo} from "graphql";
 import {CommentInstance} from "../../../models/CommentModel";
 import {Transaction} from "sequelize";
+import {handleError} from "../../../utils/utils";
 
 export const commentResolvers = {
 
   Comment: {
     user: (comment, args, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
       return db.User
-        .findById(comment.get('user'));
+        .findById(comment.get('user'))
+        .catch(handleError);
     },
 
     post: (comment, {first = 10, offset = 10}, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
       return db.Post
-        .findById(comment.get('post'));
+        .findById(comment.get('post'))
+        .catch(handleError);
     }
   },
 
   Query: {
-    commentByPost: (parent, {postId, first = 10, offset = 10}, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
+    commentsByPost: (parent, {postId, first = 10, offset = 10}, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
       return db.Comment
         .findAll({
           where: {post: postId},
           limit: first,
           offset: offset
-        });
+        })
+        .catch(handleError);
     },
   },
 
@@ -33,7 +37,7 @@ export const commentResolvers = {
       return db.sequelize.transaction((t: Transaction) => {
         return db.Comment
           .create(input, {transaction: t})
-      });
+      }).catch(handleError);
     },
 
     updateComment: (parent, {id, input}, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
@@ -45,7 +49,7 @@ export const commentResolvers = {
             if (!comment) throw new Error(`Comment with id ${id} not found!`);
             return comment.update(input, {transaction: t});
           });
-      });
+      }).catch(handleError);
     },
 
     deleteComment: (parent, {id}, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
@@ -58,7 +62,7 @@ export const commentResolvers = {
             return post.destroy({transaction: t})
               .then((post) => !!post);
           });
-      });
+      }).catch(handleError);
     }
   }
 };

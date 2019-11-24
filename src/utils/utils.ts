@@ -9,9 +9,12 @@ export const normalizePort = (val: number | string): number | string | boolean =
 
 export const onError = (server: Server) => {
   return (error: NodeJS.ErrnoException): void => {
-    let port: number | string = server.address().port;
-    if (error.syscall !== 'listen') throw error;
+    let port: number | string = 3000;
+    if (server.address()) {
+      port = server.address().port;
+    }
     let bind = (typeof port === 'string') ? `pipe ${port}` : `port ${port}`;
+    if (error.syscall !== 'listen') throw error;
     switch(error.code) {
       case 'EACCES':
         console.error(`${bind} requires elevated privileges`);
@@ -33,4 +36,10 @@ export const onListening = (server: Server) => {
     let bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
     console.log(`Listening at ${bind}...`);
   }
+};
+
+export const handleError = (error: Error) => {
+  let errorMessage: string = `${error.name}: ${error.message}`;
+  console.log(errorMessage);
+  return Promise.reject(new Error(errorMessage));
 };
