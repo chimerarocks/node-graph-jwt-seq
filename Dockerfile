@@ -2,7 +2,8 @@ FROM node:8
 
 WORKDIR /usr/src/app
 
-RUN npm i -g sequelize-cli@3.0.0
+RUN npm i -g sequelize-cli@3.0.0 typings
+RUN typings install dt~validator --global --save
 
 USER node
 
