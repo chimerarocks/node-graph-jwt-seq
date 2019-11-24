@@ -3,7 +3,7 @@ import {GraphQLResolveInfo} from "graphql";
 import {PostInstance} from "../../../models/PostModel";
 import {Transaction} from "sequelize";
 
-export const PostResolvers = {
+export const postResolvers = {
 
   Post: {
     author: (post, args, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {

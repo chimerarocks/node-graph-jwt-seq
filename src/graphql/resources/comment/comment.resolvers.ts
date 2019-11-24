@@ -3,7 +3,7 @@ import {GraphQLResolveInfo} from "graphql";
 import {CommentInstance} from "../../../models/CommentModel";
 import {Transaction} from "sequelize";
 
-export const CommentResolvers = {
+export const commentResolvers = {
 
   Comment: {
     user: (comment, args, {db}: {db: DbConnectionInterface}, info: GraphQLResolveInfo) => {
