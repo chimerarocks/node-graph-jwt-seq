@@ -2,7 +2,6 @@ import {DbConnectionInterface} from "../../../interfaces/DbConnectionInterface";
 import {GraphQLResolveInfo} from "graphql";
 import {PostInstance} from "../../../models/PostModel";
 import {Transaction} from "sequelize";
-import {UserInstance} from "../../../models/UserModel";
 
 export const PostResolvers = {
 
